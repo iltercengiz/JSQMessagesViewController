@@ -56,9 +56,11 @@
 
 @property (weak, nonatomic, readwrite) UILongPressGestureRecognizer *longPressGestureRecognizer;
 @property (weak, nonatomic, readwrite) UITapGestureRecognizer *tapGestureRecognizer;
+@property (weak, nonatomic, readwrite) UITapGestureRecognizer *tapMediaGestureRecognizer;
 
 - (void)jsq_handleLongPressGesture:(UILongPressGestureRecognizer *)longPress;
 - (void)jsq_handleTapGesture:(UITapGestureRecognizer *)tap;
+- (void)jsq_handleTapMediaGesture:(UITapGestureRecognizer *)tap;
 
 - (void)jsq_didReceiveMenuWillHideNotification:(NSNotification *)notification;
 - (void)jsq_didReceiveMenuWillShowNotification:(NSNotification *)notification;
@@ -133,6 +135,11 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleTapGesture:)];
     [self.avatarContainerView addGestureRecognizer:tap];
     self.tapGestureRecognizer = tap;
+    
+    UITapGestureRecognizer *tapMedia = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(jsq_handleTapMediaGesture:)];
+    self.mediaImageView.userInteractionEnabled = YES;
+    [self.mediaImageView addGestureRecognizer:tapMedia];
+    self.tapMediaGestureRecognizer = tapMedia;
 }
 
 - (void)dealloc
@@ -151,6 +158,9 @@
     
     [_tapGestureRecognizer removeTarget:nil action:NULL];
     _tapGestureRecognizer = nil;
+    
+    [_tapMediaGestureRecognizer removeTarget:nil action:NULL];
+    _tapMediaGestureRecognizer = nil;
 }
 
 #pragma mark - Collection view cell
@@ -234,7 +244,15 @@
                                               CGRectGetHeight(self.messageBubbleContainerView.bounds));
     
     [messageBubbleImageView setTranslatesAutoresizingMaskIntoConstraints:NO];
-    [self.messageBubbleContainerView insertSubview:messageBubbleImageView belowSubview:self.textView];
+    
+    if (self.textView)
+    {
+        [self.messageBubbleContainerView insertSubview:messageBubbleImageView belowSubview:self.textView];
+    }
+    else if (self.mediaImageView)
+    {
+        [self.messageBubbleContainerView insertSubview:messageBubbleImageView belowSubview:self.mediaImageView];
+    }
     [self.messageBubbleContainerView jsq_pinAllEdgesOfSubview:messageBubbleImageView];
     [self setNeedsUpdateConstraints];
     
@@ -364,6 +382,11 @@
 - (void)jsq_handleTapGesture:(UITapGestureRecognizer *)tap
 {
     [self.delegate messagesCollectionViewCellDidTapAvatar:self];
+}
+
+- (void) jsq_handleTapMediaGesture:(UITapGestureRecognizer *)tap
+{
+    [self.delegate messagesCollectionViewCellDidTapMedia:self];
 }
 
 #pragma mark - Notifications
