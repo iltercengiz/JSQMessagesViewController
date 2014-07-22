@@ -162,8 +162,9 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     [super viewDidAppear:animated];
     
     /**
-     *  Enable/disable springy bubbles, default is YES.
-     *  For best results, toggle from `viewDidAppear:`
+     *  Enable/disable springy bubbles, default is NO.
+     *  You must set this from `viewDidAppear:`
+     *  Note: this feature is mostly stable, but still experimental
      */
     self.collectionView.collectionViewLayout.springinessEnabled = NO;
 }
@@ -179,9 +180,14 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     
     
     /**
-     *  Show the tpying indicator
+     *  Set the typing indicator to be shown
      */
     self.showTypingIndicator = !self.showTypingIndicator;
+    
+    /**
+     *  Scroll to actually view the indicator
+     */
+    [self scrollToBottomAnimated:YES];
     
     JSQMessage *copyMessage = [JSQMessage messageWithImage:[UIImage imageNamed:@"pirlo"] sender:kJSQDemoAvatarNameJobs];
     
@@ -199,12 +205,10 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
          *  This you should do upon receiving a message:
          *
          *  1. Play sound (optional)
-         *  2. Call `startReceivingMessage`
-         *  3. Add new id<JSQMessageData> object to your data source
-         *  4. Call `finishReceivingMessage`
+         *  2. Add new id<JSQMessageData> object to your data source
+         *  3. Call `finishReceivingMessage`
          */
         [JSQSystemSoundPlayer jsq_playMessageReceivedSound];
-        [self startReceivingMessage];
         [self.messages addObject:copyMessage];
         [self finishReceivingMessage];
     });
@@ -377,7 +381,7 @@ static NSString * const kJSQDemoAvatarNameWoz = @"Steve Wozniak";
     /**
      *  Override point for customizing cells
      */
-    UICollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     
     /**
      *  Configure almost *anything* on the cell
