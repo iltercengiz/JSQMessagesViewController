@@ -89,4 +89,9 @@
                                           }];
 }
 
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self.presentingVC dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
