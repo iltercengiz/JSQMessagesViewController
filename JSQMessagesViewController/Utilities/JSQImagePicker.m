@@ -61,7 +61,7 @@
             if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
             {
                 [picker setSourceType:(UIImagePickerControllerSourceTypeCamera)];
-                [picker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
+                //[picker setCameraDevice:UIImagePickerControllerCameraDeviceFront];
             }
         }
         
