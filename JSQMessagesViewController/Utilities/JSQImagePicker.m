@@ -8,8 +8,8 @@
 
 #import "JSQImagePicker.h"
 
-#define kCameraIndex  0
-#define kAlbumIndex  1
+#define kCameraIndex  1
+#define kAlbumIndex  0
 #define kDismissIndex  2
 
 @interface JSQImagePicker () <UIImagePickerControllerDelegate, UIActionSheetDelegate>
@@ -31,7 +31,7 @@
     self.handler = uploadHandler;
     self.dismissHandler = dismissHandler;
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Upload a photo" delegate:self cancelButtonTitle:@"Dismiss" destructiveButtonTitle:nil otherButtonTitles:@"From Camera", @"From Photo library", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Photo Library", nil), NSLocalizedString(@"Take Photo", nil), nil];
     
     [actionSheet showInView:viewController.view];
 }
