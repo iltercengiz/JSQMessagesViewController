@@ -576,7 +576,6 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     [self.collectionView.delegate collectionView:self.collectionView
                             didTapMediaImageView:cell.mediaImageView
                                      atIndexPath:[self.collectionView indexPathForCell:cell]];
-
 }
 
 #pragma mark - Input toolbar delegate
@@ -624,6 +623,10 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
     }
     
     [textView becomeFirstResponder];
+    
+    if (self.automaticallyScrollsToMostRecentMessage) {
+        [self scrollToBottomAnimated:YES];
+    }
 }
 
 - (void)textViewDidChange:(UITextView *)textView

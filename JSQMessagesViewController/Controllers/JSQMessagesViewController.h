@@ -33,9 +33,6 @@
                                                          JSQMessagesCollectionViewDelegateFlowLayout,
                                                          UITextViewDelegate>
 
-- (BOOL) automaticallyScrollsToMostRecentMessage DEPRECATED_ATTRIBUTE;
-- (void) setAutomaticallyScrollsToMostRecentMessage:(BOOL)value DEPRECATED_ATTRIBUTE;
-
 /**
  *  Returns the collection view object managed by this view controller. 
  *  This view controller is the collection view's data source and delegate.
@@ -55,27 +52,13 @@
 @property (copy, nonatomic) NSString *sender;
 
 /**
- *  Specifies whether or not the view controller should automatically handle scrolling
+ *  Specifies whether or not the view controller should automatically scroll to the most recent message 
  *  when the view appears and when sending, receiving, and composing a new message.
  *
- *  @discussion The default value is `YES`, which allows the view controller to scroll automatically.
+ *  @discussion The default value is `YES`, which allows the view controller to scroll automatically to the most recent message. 
  *  Set to `NO` if you want to manage scrolling yourself.
  */
-@property (assign, nonatomic) BOOL automaticallyHandlesScrolling;
-
-/**
- *  Specifies whether or not the view controller should hide keyboard when collection view is tapped.
- *
- *  @discussion The default value is `YES`. Set to `NO` if you do not want to hide keyboard on tap.
- */
-@property (assign, nonatomic) BOOL keyboardHidesByTappingCollection;
-
-/**
- *  Specifies whether or not keyboard can be hidden via pan gesture.
- *
- *  @discussion The default value is `YES`. Set to `NO` if you do not want to hide keyboard via panning.
- */
-@property (assign, nonatomic, getter = keyboardHidesByPanGesture, setter = setKeyboardHidesByPanGesture:) BOOL keyboardHidesByPanGesture;
+@property (assign, nonatomic) BOOL automaticallyScrollsToMostRecentMessage;
 
 /**
  *  The collection view cell identifier to use for dequeuing outgoing message collection view cells in the collectionView.
@@ -183,38 +166,26 @@
  *  Completes the "sending" of a new message by animating and resetting the `inputToolbar`, 
  *  animating the addition of a new collection view cell in the collection view,
  *  reloading the collection view, and scrolling to the newly sent message 
- *  as specified by `automaticallyHandlesScrolling`.
+ *  as specified by `automaticallyScrollsToMostRecentMessage`.
  *
  *  @discussion You should call this method at the end of `didPressSendButton:withMessage:` 
  *  after adding the new message to your data source and performing any related tasks.
  *
- *  @see `automaticallyHandlesScrolling`.
+ *  @see `automaticallyScrollsToMostRecentMessage`.
  *  @see `didPressSendButton: withMessage:`.
  */
 - (void)finishSendingMessage;
 
 /**
- *  Start the "receiving" of a new message.
- *
- *  @discussion You should call this method before adding a new "received" message
- *  to your data source.
- *
- *	@see `finishReceivingMessage`
- *  @see `automaticallyHandlesScrolling`.
- */
-- (void)startReceivingMessage;
-
-/**
  *  Completes the "receiving" of a new message by animating the typing indicator,
  *  animating the addition of a new collection view cell in the collection view,
- *  reloading the collection view, and scrolling, if necessary, to the newly sent message
- *  as specified by `automaticallyHandlesScrolling`.
+ *  reloading the collection view, and scrolling to the newly sent message
+ *  as specified by `automaticallyScrollsToMostRecentMessage`.
  *
  *  @discussion You should call this method after adding a new "received" message
  *  to your data source and performing any related tasks.
  *
- *	@see `startReceivingMessage`
- *  @see `automaticallyHandlesScrolling`.
+ *  @see `automaticallyScrollsToMostRecentMessage`.
  */
 - (void)finishReceivingMessage;
 
