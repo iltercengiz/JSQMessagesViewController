@@ -347,7 +347,7 @@
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
-    return (action == @selector(copy:));
+    return (action == @selector(copy:) && self.textView);
 }
 
 - (void)copy:(id)sender
